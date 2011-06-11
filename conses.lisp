@@ -20,3 +20,10 @@
     (mapc #'yield futures)
     ;; now return what's specified
     list))
+
+(defun pmapcar (function list &rest more-lists)
+  (let ((futures (apply #'mapcar (lambda (&rest args)
+                                   (pcall (lambda () (apply function args))))
+                        list more-lists)))
+    ;; threads are running maybe
+    (mapcar #'yield futures)))
