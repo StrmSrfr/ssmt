@@ -27,3 +27,7 @@
                         list more-lists)))
     ;; threads are running maybe
     (mapcar #'yield futures)))
+
+(defun pmappend (function &rest lists)
+  (let ((futures (apply #'map-to-futures function lists)))
+    (mappend #'yield futures)))
